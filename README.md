@@ -3,7 +3,8 @@ This repo integrates [Human-Aware-RL](https://github.com/HumanCompatibleAI/human
 
 
 # Instruction
-##Install libraries
+
+## Install libraries
 Install [human-aware-rl (brancu neurips2019)](https://github.com/HumanCompatibleAI/human_aware_rl/tree/neurips2019) and [PantheonRL](https://github.com/Stanford-ILIAD/PantheonRL) accordingly.
 ## Save models
 Save the models from [Human-Aware-RL](https://github.com/HumanCompatibleAI/human_aware_rl/tree/neurips2019) agent models in this [directory](https://github.com/LxzGordon/pecan_human_AI_coordination/tree/master/models) (like the given MEP model for layout simple)
