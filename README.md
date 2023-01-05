@@ -3,7 +3,7 @@ This repo integrates [Human-Aware-RL](https://github.com/HumanCompatibleAI/human
 
 
 # Instruction
-Save the models from (Human-Aware-RL)[https://github.com/HumanCompatibleAI/human_aware_rl/tree/neurips2019] agent models in this (directory)[https://github.com/LxzGordon/pecan_human_AI_coordination/tree/master/models] (like the given MEP model for layout simple)
+Save the models from [Human-Aware-RL](https://github.com/HumanCompatibleAI/human_aware_rl/tree/neurips2019) agent models in this [directory](https://github.com/LxzGordon/pecan_human_AI_coordination/tree/master/models) (like the given MEP model for layout simple)
 
 For example, this will start a process on port 8008 with an MEP agent on the layout simple. For dummy agent in the demo layout, set dummy=True
  ```shell
