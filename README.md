@@ -9,12 +9,12 @@ This repo integrates [Human-Aware-RL](https://github.com/HumanCompatibleAI/human
 # Instruction for usage
 
 ## 1. Install libraries
-Install [PantheonRL](https://github.com/Stanford-ILIAD/PantheonRL) in this repo accordingly.
+Install [PantheonRL](https://github.com/Stanford-ILIAD/PantheonRL) in this repo
  ```shell
     pip install -e .
 ```
 
-Install Overcooked in this repo
+Install [Overcooked](https://github.com/HumanCompatibleAI/human_aware_rl/tree/a1c70b2f44bbbdddc79b14678ceaf0367ee099f6) in this repo
  ```shell
     pip install -e overcookedgym/human_aware_rl/overcooked_ai
 ```
