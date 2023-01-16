@@ -10,6 +10,14 @@ This repo integrates [Human-Aware-RL](https://github.com/HumanCompatibleAI/human
 
 ## 1. Install libraries
 Install [PantheonRL](https://github.com/Stanford-ILIAD/PantheonRL) in this repo accordingly.
+ ```shell
+    pip install -e .
+```
+
+Install Overcooked in this repo
+ ```shell
+    pip install -e overcookedgym/human_aware_rl/overcooked_ai
+```
 ## 2. Save models
 Save models of [Human-Aware-RL](https://github.com/HumanCompatibleAI/human_aware_rl/tree/neurips2019) agents in this [directory](https://github.com/LxzGordon/pecan_human_AI_coordination/tree/master/models) (like the given MEP model for layout simple)
 ## 3. Start a process
