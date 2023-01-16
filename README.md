@@ -13,8 +13,12 @@ Install [PantheonRL](https://github.com/Stanford-ILIAD/PantheonRL) in this repo 
 ## 2. Save models
 Save models of [Human-Aware-RL](https://github.com/HumanCompatibleAI/human_aware_rl/tree/neurips2019) agents in this [directory](https://github.com/LxzGordon/pecan_human_AI_coordination/tree/master/models) (like the given MEP model for layout simple)
 ## 3. Start a process
-For example, this will start a process on port 8008 with an MEP agent on the layout simple. For dummy agent in the demo layout, set dummy=True
+For example, this will start a process on port 8008 with an MEP agent on the layout simple.
  ```shell
-    cd overcookedgym/overcooked-flask
-    python app.py --layout=simple --algo=0 --port=8008 --seed=1 --dummy=False
+    python overcookedgym/overcooked-flask/app.py --layout=simple --algo=0 --port=8008 --seed=1 --dummy=False
+```
+
+The next command will start a dummy demo agent.
+ ```shell
+    python overcookedgym/overcooked-flask/app.py --layout=simple --port=8008 --dummy=True
 ```
