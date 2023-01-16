@@ -15,7 +15,7 @@ Save models of [Human-Aware-RL](https://github.com/HumanCompatibleAI/human_aware
 ## 3. Start a process
 For example, this will start a process on port 8008 with an MEP agent on the layout simple.
  ```shell
-    python overcookedgym/overcooked-flask/app.py --layout=simple --algo=0 --port=8008 --seed=1 --dummy=False
+    python overcookedgym/overcooked-flask/app.py --layout=simple --algo=0 --port=8008 --seed=1
 ```
 
 The next command will start a dummy demo agent.
