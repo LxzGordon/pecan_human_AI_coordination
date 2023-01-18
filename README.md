@@ -31,7 +31,7 @@ The next command will start a dummy demo agent.
     python overcookedgym/overcooked-flask/app.py --layout=simple --port=8008 --dummy=True
 ```
 
-#Citation
+# Citation
 Please cite
 '''shell
 @article{Lou2023pecan,
