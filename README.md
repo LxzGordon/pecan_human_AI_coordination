@@ -33,7 +33,7 @@ The next command will start a dummy demo agent.
 
 # Citation
 Please cite
- ```shell
+ ```
 @article{Lou2023pecan,
   title={PECAN: Leveraging Policy Ensemble for Context-Aware Zero-Shot Human-AI Coordination},
   author={Lou, Xingzhou and Guo, Jiaxian and Zhang, Junge and Wang, Jun and Huang, Kaiqi and Du, Yali},
@@ -42,7 +42,7 @@ Please cite
 }
  ```
 
- ```shell
+ ```
  @inproceedings{sarkar2022pantheonrl,
   title={PantheonRL: A MARL Library for Dynamic Training Interactions},
   author={Sarkar, Bidipta and Talati, Aditi and Shih, Andy and Sadigh, Dorsa},
@@ -54,7 +54,7 @@ Please cite
 }
  ```
 
- ```shell
+ ```
 @article{carroll2019utility,
   title={On the utility of learning about humans for human-ai coordination},
   author={Carroll, Micah and Shah, Rohin and Ho, Mark K and Griffiths, Tom and Seshia, Sanjit and Abbeel, Pieter and Dragan, Anca},
