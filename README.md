@@ -34,7 +34,7 @@ The next command will start a dummy demo agent.
 # Citation
 Please cite
  ```
-@article{Lou2023pecan,
+@article{lou2023pecan,
   title={PECAN: Leveraging Policy Ensemble for Context-Aware Zero-Shot Human-AI Coordination},
   author={Lou, Xingzhou and Guo, Jiaxian and Zhang, Junge and Wang, Jun and Huang, Kaiqi and Du, Yali},
   journal={arXiv preprint arXiv:2301.06387},
