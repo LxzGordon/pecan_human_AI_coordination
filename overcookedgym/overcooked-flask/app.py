@@ -1,20 +1,11 @@
-import os
-import io
-import json
-import copy
-import argparse
-import torch
+import json,copy,argparse
 import numpy as np
-import gym
-
 from flask import Flask, jsonify, request
-from overcooked_ai_py.mdp.overcooked_mdp import OvercookedGridworld, OvercookedState, PlayerState, ObjectState
-from overcooked_ai_py.planning.planners import MediumLevelPlanner, NO_COUNTERS_PARAMS
-from stable_baselines3 import PPO
 
+from overcooked_ai_py.mdp.overcooked_mdp import OvercookedGridworld, OvercookedState, PlayerState, ObjectState
 from overcookedgym.overcooked_utils import NAME_TRANSLATION
 from pantheonrl.common.trajsaver import SimultaneousTransitions
-from pantheonrl.tf_utils import get_pbt_agent_from_config_context,get_pbt_agent_from_config
+from pantheonrl.tf_utils import get_pbt_agent_from_config
 
 app = Flask(__name__)
 parser = argparse.ArgumentParser(
@@ -179,7 +170,5 @@ if __name__ == '__main__':
     # TODO: client should pick layout name, instead of server?
     # currently both client/server pick layout name, and they must match
     MDP = OvercookedGridworld.from_layout_name(layout_name=ARGS.layout_name)
-    MLP = MediumLevelPlanner.from_pickle_or_compute(
-        MDP, NO_COUNTERS_PARAMS, force_compute=False)
 
     app.run(debug=True, host='0.0.0.0',port=ARGS.port)
