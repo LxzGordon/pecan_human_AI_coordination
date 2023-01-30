@@ -1,5 +1,7 @@
 # Introdution
-This repo integrates [Human-Aware-RL](https://github.com/HumanCompatibleAI/human_aware_rl/tree/neurips2019) agent models with the [PantheonRL](https://github.com/Stanford-ILIAD/PantheonRL) framework for convenient human-ai coordination study on Overcooked. Changes are done under the [overcookedgym/overcooked-flask](https://github.com/LxzGordon/pecan_human_AI_coordination/tree/master/overcookedgym/overcooked-flask) directory.
+This repo is the code for human-AI experiments on Overcooked by AAMAS 2023 paper [PECAN](https://arxiv.org/abs/2301.06387). For code of PECAN, please refer to this [repo](https://github.com/LxzGordon/PECAN).
+
+We integrate [Human-Aware-RL](https://github.com/HumanCompatibleAI/human_aware_rl/tree/neurips2019) agent models with the [PantheonRL](https://github.com/Stanford-ILIAD/PantheonRL) framework for convenient human-ai coordination study on Overcooked. Changes are done under the [overcookedgym/overcooked-flask](https://github.com/LxzGordon/pecan_human_AI_coordination/tree/master/overcookedgym/overcooked-flask) directory.
 <p align="center">
   <img src="./images/pecan_uni.gif" width="40%">
   <img src="./images/pecan_simple.gif" width="40%">
