@@ -1,0 +1,25 @@
+Scene: Current Time is 0. I am holding nothing. Teammate is holding nothing. Kitchen states:pot empty
+AI: pickup_onion. Explanation: Pot is empty. You and you teammate holds nothing. The prerequisite of pickup_onion is met. You need to start preparing the ingredients.
+
+
+Scene: Current Time is 13. I am holding an onion. Teammate is holding nothing. Kitchen states: pot has 3 onions.
+AI: place_onion_on_counter. Explanation: The pot has all the required ingredients, and you are holding an onion. The next step is to start cooking the soup by using the start_cooking skill. But one prerequisite of start_cooking is have nothing at hand. As you hold an onion, you have to put it down. Since the pot alrady has 3 onions, you can not put the onion in the pot and you can only place the onion on the counter.
+
+
+
+Scene: Current Time is 14. I am holding nothing. Teammate holds one onion. Kitchen states: pot has 3 onions. 
+Skill: pickup(dish)
+
+
+
+Scene: Current Time is 18. I am holding nothing. Teammate is holding onion. Kitchen states: pot has 3 onions and starts cooking. Soup needs 19 more timesteps to be ready.
+
+
+Scene: Current Time is 39. I am holding one dish. Teammate is holding one dish with soup. Kitchen states: pot empty.
+
+
+Scene: Current Time is 39. I am holding nothing. Teammate is holding onion. Kitchen states:pot with soup ready.
+AI: pickup_dish. Explanation: the soup is now ready, and you need to deliver it. You should use the pickup_soup_with_dish skill to pick up the soup with a dish. But one prerequisite of pickup_soup_with_dish is have a dish. So you need to pickup_dish first.
+
+
+

@@ -1,0 +1,42 @@
+Analysis of why I cannot execute this skill in the current scene step by step.
+
+def pickup(obj):
+    assert object_in_hand() == "nothing", f"I cannot pickup {obj}, since that hand is not empty."
+    assert obj in ["onion", "dish"], f"I cannot pickup {obj}, since that this is a invalid object."
+    return f"pickup(obj)"
+
+def place_obj_on_counter(obj):
+    assert object_in_hand() == obj, f"I cannot place {obj} on counter, since that this obj not in hand."
+    return f"place_obj_on_counter({obj})"
+
+def put_onion_in_pot(): # put one onion in pot
+    assert object_in_hand() == "onion", f"I cannot put onion in pot, since that onion is not in my hand."
+    assert pot_onions_count() < 3, f"I cannot put onion in pot, since that pot already has 3 onions and instead place_onion_on_counter."
+    return "put_one_onion_in_pot()"
+
+def fill_dish_with_soup():
+    assert object_in_hand() == "dish", f"I cannot fill dish with soup, since that I have no dish in my hand and pickup(dish) first."
+    assert soup_ready() or pot_started_cooking(), f"I cannot fill dish with soup, since that soup is not ready or pot not started cooking."
+    return "fill_dish_with_soup()"
+
+def start_cooking():
+    assert object_in_hand() == "nothing", f"I cannot start cooking, since that hand is not empty."
+    assert onions_in_pot() == 3, f"I cannot start cooking, since that pot has not enough onions and add more onions."
+    assert not (soup_ready() or pot_started_cooking()), f"I cannot start cooking, since that pot has already started cooking."
+    return "start_cooking()"
+
+def deliver_soup():
+    assert object_in_hand() == "soup_with_dish", f"I cannot deliver soup, since that a dish with soup not in hand."
+    return "deliver_soup()"
+
+def wait(nun): # wait num timesteps
+    assert type(num) == int and 0 < num <= 20, f"I cannot wait({num}), since the wait time is not valid."
+    return f"wait({num})"
+
+###
+To skill xxx.
+- Condition 1: xxxx. [True/False]. Reason: xxx.
+- Condition 2: xxxx. [True/False]. Reason: xxx.
+.....
+In all, the failed condtion is xxxx.
+###

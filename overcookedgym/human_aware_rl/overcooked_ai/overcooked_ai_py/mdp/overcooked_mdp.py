@@ -156,13 +156,15 @@ class PlayerState(object):
 
 class OvercookedState(object):
     """A state in OvercookedGridworld."""
-    def __init__(self, players, objects, all_orders):
+
+    def __init__(self, players, objects, order_list, timestep=0):
         """
         players: List of PlayerStates (order corresponds to player indices).
-        objects: Dictionary mapping positions (x, y) to ObjectStates. 
-                 NOTE: Does NOT include objects held by players (they are in 
+        objects: Dictionary mapping positions (x, y) to ObjectStates.
+                 NOTE: Does NOT include objects held by players (they are in
                  the PlayerState objects).
         order_list: Current orders to be delivered
+        timestep (int):  The current timestep of the state
 
         NOTE: Does not contain time left, which is handled from the environment side.
         """
@@ -170,9 +172,10 @@ class OvercookedState(object):
             assert obj.position == pos
         self.players = tuple(players)
         self.objects = objects
-        #if all_orders is not None:
-            #assert all([o in OvercookedGridworld.ORDER_TYPES for o in all_orders])
-        self.order_list = all_orders
+        if order_list is not None:
+            assert all([o in OvercookedGridworld.ORDER_TYPES for o in order_list])
+        self.order_list = order_list
+        self.timestep = timestep  # I add: The current timestep of the state
 
     @property
     def player_positions(self):
@@ -268,8 +271,8 @@ class OvercookedState(object):
         positions and orientations and order list
         """
         return OvercookedState(
-            [PlayerState(*player_pos_and_or) for player_pos_and_or in players_pos_and_or], 
-            objects={}, all_orders=order_list)
+            [PlayerState(*player_pos_and_or) for player_pos_and_or in players_pos_and_or],
+            objects={}, order_list=order_list)
 
     @staticmethod
     def from_player_positions(player_positions, order_list):
@@ -283,13 +286,14 @@ class OvercookedState(object):
     def deepcopy(self):
         return OvercookedState(
             [player.deepcopy() for player in self.players],
-            {pos:obj.deepcopy() for pos, obj in self.objects.items()}, 
-            None if self.order_list is None else list(self.order_list))
+            {pos: obj.deepcopy() for pos, obj in self.objects.items()},
+            None if self.order_list is None else list(self.order_list),
+            timestep=self.timestep)
 
     def __eq__(self, other):
         order_list_equal = type(self.order_list) == type(other.order_list) and \
-            ((self.order_list is None and other.order_list is None) or \
-            (type(self.order_list) is list and np.array_equal(self.order_list, other.order_list)))
+                           ((self.order_list is None and other.order_list is None) or \
+                            (type(self.order_list) is list and np.array_equal(self.order_list, other.order_list)))
 
         return isinstance(other, OvercookedState) and \
             self.players == other.players and \
@@ -302,14 +306,15 @@ class OvercookedState(object):
         )
 
     def __str__(self):
-        return 'Players: {}, Objects: {}, Order list: {}'.format( 
+        return 'Players: {}, Objects: {}, Order list: {}'.format(
             str(self.players), str(list(self.objects.values())), str(self.order_list))
 
     def to_dict(self):
         return {
             "players": [p.to_dict() for p in self.players],
             "objects": [obj.to_dict() for obj in self.objects.values()],
-            "order_list": self.order_list
+            "order_list": self.order_list,
+            "timestep": self.timestep,
         }
 
     @staticmethod
@@ -317,9 +322,9 @@ class OvercookedState(object):
         state_dict = copy.deepcopy(state_dict)
         state_dict["players"] = [PlayerState.from_dict(p) for p in state_dict["players"]]
         object_list = [ObjectState.from_dict(o) for o in state_dict["objects"]]
-        state_dict["objects"] = { ob.position : ob for ob in object_list }
+        state_dict["objects"] = {ob.position: ob for ob in object_list}
         return OvercookedState(**state_dict)
-    
+
     @staticmethod
     def from_json(filename):
         return load_from_json(filename)

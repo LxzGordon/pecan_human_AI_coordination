@@ -1,0 +1,14 @@
+Imagine I am a robot playing a game similar to Overcooked. I am trying to perform a task, and you should help me by sending me commands. You are only allowed to give me the following commands:
+pick_up(object): pick up an object, such as onion, dish and soup. I can only pick up soup when I am holding a dish and the soup is ready.
+put_down(object, destination): destination should be a name; put the object you are holding to the destination, only valid when holding things; you can put down the object to the counter when you don't need it
+light_fire(): light up the fire for pot, only when the pot has all the ingredients
+wait(): wait when there's nothing to do
+deliver(): deliver soup to the serving loc, only valid when holding soup
+When the fire is lit, the pot will start to cook and become soup later. I need to pick up soup with an empty dish. Then serve the soup.
+After I deliver the soup, I will start a next round.
+On each step, I will provide you with my location, orientation and the object I may have as <position, orientation, object>, and the destinations in the scene as a list of <destination name, position>. You should reply with only one command at a time.
+The destinations are: [pot, onion dispenser, dish dispenser, serving loc]
+The positions are in tuples (x, y), indicating the x and y axis.
+When the soup is cooking and I have dish, I should wait until soup is ready.
+Task: prepare, cook and serve soup according to the recipe.
+Recipe: 3 onion

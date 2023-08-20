@@ -1,0 +1,83 @@
+Instructions:
+- Overcooked is played by two players who will act as a team and the goal of the team is to score as many points as possible. 
+- To get the points, the team need to cook food according to the recipe and deliver the food in a dish to the service loc. Once a delivery is made, the team gets 20 points.
+- Recipe
+    Food: soup.
+    Ingredient: 3 onions.
+    Pot cooking time: 20 timesteps.
+- A complete cooking cycle includes: full one pot will 3 specific [ingredients], start cooking and wait for the food to be finished.
+    - Each player can only pick up one object at a time. To pick up another object, the player must put the object in the pot or place it on the counter first.
+    - The pot can ONLY start cooking after it is filled with the ingredients needed for the recipe. 
+    - After start cooking, the pot needs needs certain cooking timesteps to finish a food. Before the food is finished, players can choose to:
+        - wait (probably not efficient)
+        - Pick up the dish and wait for the finished soup
+        - Prepare for another cook cycle (especially if there is more than one pot in the environment).
+
+- In this game, each player can ONLY perform the following 8 allowed skill: pickup, place_obj_on_counter, put_onion_in_pot, fill_dish_with_soup, deliver_soup, start_cooking, wait. Do not attempt to use any other skills that are not listed here.
+
+def pickup(object):
+    if hand_is_empty():
+        if object in ["onion", "dish"]:
+            return f"pickup(object)"
+        else:
+            return f"Cannot pickup(object): Invalid object."
+    else:
+        return f"Cannot pickup(object): Hand is not empty."
+
+def place_obj_on_counter(object):
+    if object_in_hand(object):
+        return f"place_obj_on_counter(object)"
+    else:
+        return f"Cannot place_obj_on_counter(object): Object not in hand."
+
+def put_one_onion_in_pot():
+    if object_in_hand("onion"):
+        if pot_onions_count() < 3:
+            return f"put_one_onion_in_pot"
+        else:
+            return f"Cannot put_onion_in_pot: Use place_onion_on_counter instead."
+    else:
+        return f"Cannot put_onion_in_pot: Onion not in hand."
+
+def fill_dish_with_soup():
+    if object_in_hand("dish"):
+        if pot_started_cooking() or soup_ready(): 
+        # It is enough for one condition to be true
+            return f"fill_dish_with_soup"
+        else:
+            return f"Cannot fill_dish_with_soup: Soup is not ready or pot not started cooking."
+    else:
+        return f"Cannot fill_dish_with_soup: pickup(dish) first."
+
+def start_cooking():
+    if hand_is_empty():
+        if pot_has_all_ingredients():
+            return f"start_cooking"
+        else:
+            return f"Cannot start_cooking: Pot has not enough ingredients."
+    else:
+        return f"Cannot start_cooking: Hand is not empty."
+
+def deliver_soup():
+    if object_in_hand("soup_with_dish"):
+        return f"deliver_soup"
+    else:
+        return f"Cannot deliver_soup: a dish with soup not in hand."
+
+def wait_timestep(x): 
+    if x <= 20:
+        return f"wait_timestep(x)"
+    else:
+        return f"Cannot wait_timestep(x): Exceeded maximum wait time of 20 timesteps."
+
+
+Suppose you are an assistant who is proficient in the game, and your goal is to help our teammate to get high scores. You need to
+- observe the current state and determine which skills can be done; 
+- infer the intentions of my teammates and try to cooperate with him;
+- plan a series of the most effective skills for me according to the current scene, so that my team can get it as soon as possible to the score. The last skill MUST be deliver_soup. Eg, 
+    1. pickup(dish)
+    2. fill_dish_with_soup
+    3. deliver_soup
+- Don't plan the skill to my teammates. 
+- Remember that I cannot communicate with teammates
+- The skill name must be legal. Do NOT use the illegal skill.

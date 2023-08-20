@@ -3,17 +3,31 @@ import numpy as np
 from flask import Flask, jsonify, request
 
 from overcooked_ai_py.mdp.overcooked_mdp import OvercookedGridworld, OvercookedState, PlayerState, ObjectState
-from overcookedgym.overcooked_utils import NAME_TRANSLATION
-from pantheonrl.common.trajsaver import SimultaneousTransitions
-from pantheonrl.tf_utils import get_pbt_agent_from_config
+from overcooked_ai_py.planning.planners import MediumLevelPlanner
+# from overcookedgym.overcooked_utils import NAME_TRANSLATION
+from overcookedgym.GPTAgent import GPTMediumLevelAgent
+from overcooked_ai_py.mdp.actions import Action
+
+# from pantheonrl.common.trajsaver import SimultaneousTransitions
+# from pantheonrl.tf_utils import get_pbt_agent_from_config
+NAME_TRANSLATION = {
+    "cramped_room": "simple",
+    "asymmetric_advantages": "unident_s",
+    "coordination_ring": "random1",
+    "forced_coordination": "random0",
+    "counter_circuit": "random3",
+}
+
+REVERSED_NAME_TRANSLATION = {v: k for k, v in NAME_TRANSLATION.items()}
+
 
 app = Flask(__name__)
 parser = argparse.ArgumentParser(
     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('--layout_name', type=str,
                     required=True, help="layout name")
-parser.add_argument('--algo', type=int,required=True,
-    help="0 or 1, 0 for MEP, 1 for your own algo")        
+parser.add_argument('--algo', type=int, default=1,
+    help="0 or 1, 0 for MEP, 1 for your own algo")
 parser.add_argument('--port', type=int,required=True,
                     help="port to run flask")
 parser.add_argument('--seed', type=int,default=1,
@@ -30,7 +44,7 @@ def get_prediction(s, policy, layout_name, algo):
     return int(action)
 
 
-def process_state(state_dict, layout_name):
+def process_state(state_dict, timestep):
     def object_from_dict(object_dict):
         return ObjectState(**object_dict)
 
@@ -40,19 +54,21 @@ def process_state(state_dict, layout_name):
             player_dict["held_object"] = object_from_dict(held_obj)
         return PlayerState(**player_dict)
 
-    def state_from_dict(state_dict):
+    def state_from_dict(state_dict, timestep=timestep):
         state_dict["players"] = [player_from_dict(
             p) for p in state_dict["players"]]
         object_list = [object_from_dict(o)
                        for _, o in state_dict["objects"].items()]
         state_dict["objects"] = {ob.position: ob for ob in object_list}
-        state_dict['all_orders']=state_dict['order_list']
-        del state_dict['order_list']
-        return OvercookedState(**state_dict)
+        # state_dict['all_orders']=state_dict['order_list']
+        # del state_dict['order_list']
+        # del state_dict['all_orders']
+        return OvercookedState(**state_dict, timestep=timestep)
 
     state = state_from_dict(copy.deepcopy(state_dict))
-    obs0,obs1=MDP.lossless_state_encoding(state)
-    return MDP.lossless_state_encoding(state)
+    # obs0,obs1=MDP.lossless_state_encoding(state)
+    # return MDP.lossless_state_encoding(state)
+    return state
 
 
 
@@ -85,13 +101,15 @@ def convert_traj_to_simultaneous_transitions(traj_dict, layout_name):
     alt_act = np.concatenate(alt_act, axis=-1)
     flags = np.concatenate(flags, axis=-1)
 
-    return SimultaneousTransitions(
+    # return SimultaneousTransitions(
+    return (
             ego_obs,
             ego_act,
             alt_obs,
             alt_act,
             flags,
         )
+
 
 
 @app.route('/predict', methods=['POST'])
@@ -102,22 +120,26 @@ def predict():
             "npc_index"], data_json["layout_name"], data_json["timestep"]
         player_id = int(player_id_dict)
         layout_name = NAME_TRANSLATION[server_layout_name]
-        
-        s0, s1 = process_state(state_dict, layout_name)
+
+        s = process_state(state_dict, timestep=timestep)
 
         print("---\n")
 
-        if player_id == 0:
-            s, policy = s0, POLICY.direct_action
-        elif player_id == 1:
+        # if player_id == 0:
+        #     s, policy = s0, POLICY.direct_action
+            # s, policy = s0, POLICY.action
+        # elif player_id == 1:
             #s, policy = s1, POLICY_P1
-            s,policy=s1,POLICY.direct_action
-        else:
-            assert(False)
+            # s,policy=s1,POLICY.direct_action
+            # s,policy=s1,POLICY.action
+        # else:
+        #     assert(False)
         algo=None
-        a = get_prediction(s, policy, layout_name, algo)
+        # a = get_prediction(s, policy, layout_name, algo)
+        action = POLICY.action(s)
 
-        return jsonify({'action': a})
+
+        return jsonify({'action': Action.ACTION_TO_INDEX[action]})
 
 
 @app.route('/updatemodel', methods=['POST'])
@@ -157,14 +179,34 @@ def root():
 
 
 if __name__ == '__main__':
-    if ARGS.algo==0:
-        pbt_save_dir='./models/'+ARGS.layout_name+'/mep/'
-        seed=ARGS.seed
-        mep_agent=get_pbt_agent_from_config(pbt_save_dir, 30, seed=seed, agent_idx=0,iter=1)
-        POLICY=mep_agent
-    else:
+    # if ARGS.algo==0:
+    #     pbt_save_dir='./models/'+ARGS.layout_name+'/mep/'
+    #     seed=ARGS.seed
+    #     mep_agent=get_pbt_agent_from_config(pbt_save_dir, 30, seed=seed, agent_idx=0,iter=1)
+    #     POLICY=mep_agent
+    # else:
         #POLICY=your own agent
-        pass
+        # pass
+    layout = ARGS.layout_name
+    mdp = OvercookedGridworld.from_layout_name(layout)
+    MLAM_PARAMS = {
+        "start_orientations": False,
+        "wait_allowed": True,
+        "counter_goals": [],
+        "counter_drop": [],
+        "counter_pickup": [],
+        "same_motion_goals": True,
+    }
+    counter_locations = mdp.get_counter_locations()
+    MLAM_PARAMS["counter_goals"] = counter_locations
+    MLAM_PARAMS["counter_drop"] = counter_locations
+    MLAM_PARAMS["counter_pickup"] = counter_locations
+
+    mlam = MediumLevelPlanner.from_pickle_or_compute(mdp, MLAM_PARAMS, force_compute=True).ml_action_manager
+    agent = GPTMediumLevelAgent(mlam, REVERSED_NAME_TRANSLATION[layout])
+    agent.set_mdp(mdp)
+    agent.set_agent_index(1)
+    POLICY = agent
 
 
     # TODO: client should pick layout name, instead of server?

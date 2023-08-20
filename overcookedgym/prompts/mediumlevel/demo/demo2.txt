@@ -1,0 +1,26 @@
+Scene: Current Time is 50. My hand holds the soup to be delivered. Teammate's hand holds one onion. Kitchen states: pot empty.
+Analysis: You are holding the soup to be delivered, and your teammate is holding one onion. The pot is empty, so your teammate needs to put the onion into the pot to start cooking. Since your hand is holding the soup, you need to deliver it to the service location to score points.
+Skill to you: "deliver_soup()".
+
+###
+Scene: Current Time is 38. My hand hold one dish. Teammate's hand holds one dish. Kitchen states: pot with soup ready.
+
+Analysis: The pot has soup ready and both you and your teammate are holding one dish each. You can now fill your dish with soup and deliver it to the serving location.
+Skill to player 0: "fill_dish_with_soup()".
+
+###
+Scene: Current Time is 39. My hand hold one dish. Teammate's hand holds one soup. Kitchen states: pot empty.
+
+
+###
+Scene: Current Time is 11. My hand hold nothing. Teammate's hand holds one onion. Kitchen states: pot has 2 onions.
+
+Based on your inference, your teammate will most likely put their onion in the pot to complete the 3 onions required to start cooking the soup. Therefore, you should pick up a dish so that you can fill it with soup once the soup is ready. 
+Skill to you: "pickup(dish)".
+###
+Scene: Current Time is 39. My hands hold one dish. Teammate holds one onion. Kitchen states: pot with soup ready. The soup needs to be filled in a dish. 
+
+Analysis: The pot has soup ready and needs to be filled in a dish. You are holding one dish, and your teammate is holding one onion. Your teammate needs to put the onion into the pot, and you need to fill the dish with soup.
+Skill to you: "fill_dish_with_soup()".
+###
+Scene: Current Time is 82. My hand hold nothing. Teammate's hand holds one dish. Kitchen states: pot with soup ready. The soup needs to be filled in a dish.

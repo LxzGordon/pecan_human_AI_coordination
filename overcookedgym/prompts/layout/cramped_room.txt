@@ -1,0 +1,15 @@
+The following is an example state of the game:
+X       X       P{øøø1  X       X
+
+O               ↑0              O
+
+X       ↓1o                     X
+
+X       D       X       S       X
+
+This is a 4*5 grid. "X" represents COUNTER, "O" represents ONION_DISPENSER, "P" represents POT, "D" represents DISH_DISPENSER, "S" represents SERVING_LOC. "ø" represents an onion in the POT.
+Player 0 is at the position (1, 2), and player 1 is at the position (2, 1).
+The direction arrow before the player represents the direction the player is facing. In this example, player 0 is facing NORTH, and player 1 is facing SOUTH.
+The string after the "P" represents the content of the POT. In this example, the POT has 3 onions.
+The number '1' after the 'P{øøø' represents the number of steps the POT has been cooking. In this example, the POT has been cooking for 1 step.
+The lower case character after the player represents the item the player is holding. 'o' represents onion, 'd' represents dish, '{øøø✓' represents cooked soup. In this example, player 0 holds nothing, and player 1 is holding an onion.
